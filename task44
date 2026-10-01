@@ -1,0 +1,33 @@
+class Solution {
+    List<List<Integer>> result = new ArrayList<>();
+    List<Integer> path = new ArrayList<>();
+
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        dfs(root, targetSum);
+        return result;
+    }
+
+    private void dfs(TreeNode node, int remaining) {
+        if (node == null) {
+            return;
+        }
+
+        // Add current node
+        path.add(node.val);
+        remaining -= node.val;
+
+        // Check if current node is a leaf
+        if (node.left == null && node.right == null) {
+            if (remaining == 0) {
+                result.add(new ArrayList<>(path));
+            }
+        }
+
+        // Explore left and right
+        dfs(node.left, remaining);
+        dfs(node.right, remaining);
+
+        // Backtrack
+        path.remove(path.size() - 1);
+    }
+}
